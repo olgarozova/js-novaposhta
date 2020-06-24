@@ -1,0 +1,38 @@
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+html,body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+}
+footer{
+    margin-top: auto;
+}
+
+.container{
+    display: flex;
+    width: 100%;
+    padding: 20px;
+}
+main,aside{
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+main{
+    width: 70%;    
+    margin-right: 20px;
+}
+aside{
+    width: 30%;
+    margin-left: auto;        
+}
+h1{
+    margin: 0 0 10px 0;
+    font-size: 22px;
+}
