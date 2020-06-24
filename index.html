@@ -16,12 +16,16 @@
         </a>
     </header>    
     <div class="container">                        
-        <main>     
+        <main class="container__main">     
             <h1>JS homework with API novaposhta</h1> 
-                                           
+            <form id="ttn-status-form" action="/" method="GET">
+                <input placeholder="TTN number" type="text" value="" name="ttn_number" id="ttn_number" class="form-text-element">
+                <button class="form-btn" type="submit">Get status TTN</button>                
+            </form>  
+            <div id="ttn-status-result"></div>                          
         </main>
-        <aside>
-            sidebar
+        <aside class="container__sidebar">            
+            <h2>History</h2>            
         </aside>            
     </div>    
     <footer>@ 2020</footer>
