@@ -78,7 +78,9 @@ class TTNApi {
         .then(data =>  { // create TTN obj 
             const ttn = new TTN(data.Number,
                                 data.StatusCode,
-                                data.Status);   //TODO: add  WarehouseRecipient, WarehouseSender 
+                                data.Status,
+                                data.WarehouseRecipient,
+                                data.WarehouseSender);   //TODO: add  WarehouseRecipient, WarehouseSender 
           
             return ttn;    
         })       
@@ -91,13 +93,23 @@ class TTNApi {
 }
 
 class TTN {
-    constructor(ttnId,statusCode,status){        
+    constructor(ttnId,statusCode,status,recipient,sender){        
         this.ttnId = ttnId;
         this.statusCode = statusCode;
         this.status = status;
+        this.recipient = recipient;
+        this.sender = sender;
+    
     }
-    viewStatusInfo(){
+    viewStatusInfo(resultContainer){
         //return HTML 
+        console.dir(this);
+        let resultHtml = '';
+        resultHtml = `<p>Status: ${this.status}</p>`;
+        if(this.recipient) resultHtml += `<p><b>Recipient:</b> ${this.recipient}</p>`;
+        if(this.sender) resultHtml += `<p><b>Sender:</b> ${this.sender}</p>`;
+        
+        resultContainer.innerHTML = resultHtml;
         console.log('render html status info');
     }    
 }
@@ -111,6 +123,8 @@ class TTNForm {
         this.regExForTTN = /^(5|2|1)[0-9]{13}$/; // common regEx : firstsymbol 5|2|1 , 14 symbols in ttn, only numeric
         this.TTNApi = new TTNApi(apiKey);
         this.ttnHistory = new TTN_History(apiKey);
+
+        this.statusInfoContainer = document.querySelector("#ttn-status-result");
         
     }
 
@@ -129,7 +143,7 @@ class TTNForm {
 
             //add to history here!               
             response.then(ttn => {
-                ttn.viewStatusInfo();
+                ttn.viewStatusInfo(this.statusInfoContainer);
                 this.ttnHistory.addToHistory(ttn.ttnId);
                 //ttn.addToHistory();
             });
@@ -147,6 +161,7 @@ class TTNForm {
 class TTN_History{ //add constructore (apiKey), remove static
     constructor(apiKey){
         this.ttnApi = new TTNApi(apiKey);
+        this.statusInfoContainer = document.querySelector("#ttn-status-result");
     }
     getHistoryTtns(){
         let ttns = JSON.parse(localStorage.getItem('historyTtns') || '[]');       
@@ -171,7 +186,7 @@ class TTN_History{ //add constructore (apiKey), remove static
        // console.dir(ttn);
         const response = this.ttnApi.getTTN(ttn);  
         response.then(ttn => {
-            ttn.viewStatusInfo();           
+            ttn.viewStatusInfo(this.statusInfoContainer);           
         });   
                         
                
