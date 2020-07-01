@@ -99,19 +99,7 @@ class TTN {
     viewStatusInfo(){
         //return HTML 
         console.log('render html status info');
-    }
-    addToHistory(){
-        //save with localStorage ?
-        console.log('add to history '+this.ttnId);
-        
-        let ttns = JSON.parse(localStorage.getItem('historyTtns') || '[]' );
-       
-        if(!ttns.includes(this.ttnId)) {
-            ttns.push(this.ttnId);        
-            localStorage.setItem('historyTtns',JSON.stringify(ttns)); 
-            TTN_History.viewHistoryBlock();               
-        }
-    }
+    }    
 }
 
 class TTNForm {
@@ -122,6 +110,7 @@ class TTNForm {
            
         this.regExForTTN = /^(5|2|1)[0-9]{13}$/; // common regEx : firstsymbol 5|2|1 , 14 symbols in ttn, only numeric
         this.TTNApi = new TTNApi(apiKey);
+        this.ttnHistory = new TTN_History(apiKey);
         
     }
 
@@ -141,7 +130,8 @@ class TTNForm {
             //add to history here!               
             response.then(ttn => {
                 ttn.viewStatusInfo();
-                ttn.addToHistory();
+                this.ttnHistory.addToHistory(ttn.ttnId);
+                //ttn.addToHistory();
             });
             
         }      
@@ -149,29 +139,48 @@ class TTNForm {
 
     init(){        
         this.form.onsubmit = this.getInfo.bind(this);       
-        TTN_History.viewHistoryBlock();
+        this.ttnHistory.viewHistoryBlock();
     }    
 }
 /***************************************************/
 
-class TTN_History{
-    static getHistoryTtns(){
+class TTN_History{ //add constructore (apiKey), remove static
+    constructor(apiKey){
+        this.ttnApi = new TTNApi(apiKey);
+    }
+    getHistoryTtns(){
         let ttns = JSON.parse(localStorage.getItem('historyTtns') || '[]');       
         return ttns;
     }
-    static getHistoryInfo(event){ 
-        // event.preventDefault();              
- 
-         if(this.isValidNumber()){
-             this.TTNApi.getTTN(this.ttnNumberElem.value);     
-             //add to history here!               
-         }      
+    addToHistory(ttnId){
+        //save with localStorage ?
+        console.log('add to history '+ttnId);
+        
+        let ttns = JSON.parse(localStorage.getItem('historyTtns') || '[]' );
+       
+        if(!ttns.includes(ttnId)) {
+            ttns.push(ttnId);        
+            localStorage.setItem('historyTtns',JSON.stringify(ttns)); 
+            this.viewHistoryBlock();               
+        }
+    }
+    getHistoryInfo(event){         
+        //console.dir(event.target.innerText);
+        const ttn = event.target.innerText;   
+        //const ttnApi = new TTNApi('f32192aa4b7940e82fbe254e62673948'); 
+       // console.dir(ttn);
+        const response = this.ttnApi.getTTN(ttn);  
+        response.then(ttn => {
+            ttn.viewStatusInfo();           
+        });   
+                        
+               
      }
 
-    static viewHistoryBlock(){
+    viewHistoryBlock(){
         const ttnHistoryContainer = document.querySelector(".ttns-history__result");
         const ttns = this.getHistoryTtns();
-        console.log('render html history block');
+      //  console.log('render html history block');
 
         if(!!ttns.length){
            
@@ -181,7 +190,7 @@ class TTN_History{
 
                 const li = document.createElement('li');//add onclick event
                                 
-                li.onclick = this.getHistoryInfo;
+                li.onclick = this.getHistoryInfo.bind(this);
                 ul.appendChild(li);
                 li.innerHTML = ttn;
 
@@ -194,14 +203,15 @@ class TTN_History{
             //add button 'clear history'
             const btnClear = document.createElement("button");
             btnClear.innerHTML = "Clear history";
+            btnClear.classList.add('form-btn');
             btnClear.onclick = this.deleteHistory.bind(this);                
             ttnHistoryContainer.appendChild(btnClear);  
         }else{           
             ttnHistoryContainer.innerHTML = 'The history is empty';
         }
     }
-    static deleteHistory(){
-        console.log('delete all history');
+    deleteHistory(){
+       // console.log('delete all history');
         localStorage.removeItem('historyTtns');
         this.viewHistoryBlock();
     }
