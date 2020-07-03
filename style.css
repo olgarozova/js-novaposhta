@@ -66,3 +66,19 @@ form input:focus{
     border-color: #545b62;
     cursor: pointer;
 }
+.ttns-history__result-item:hover{
+    cursor: pointer;
+    text-decoration: underline;    
+}
+.form-text-element.invalid{
+    box-shadow: 0 0 3px 3px rgba(239, 35, 35, .7);
+}
+.ttn-status-form__error{
+    color: rgba(239, 35, 35);
+    font-size: 12px;
+    padding: 6px 10px 0;
+    display: none;
+}
+.ttn-status-form__error.show{
+    display: block;
+}

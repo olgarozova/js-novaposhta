@@ -1,33 +1,5 @@
 
-/*class RequestFactory {
-
-     createRequest (type,apiKey,ttnId = '') {     
-        let body; 
-        if (type === 'Treking') {
-            body = new Treking(ttnId);
-        }else if(type === 'TtnList'){
-            body = new TtnList();
-        }
-        body.apiKey = apiKey;
-
-    }
-  }
-
-class Treking {
-    constructor(ttnId){               
-        this.modelName = "TrackingDocument";
-        this.calledMethod = "getStatusDocuments";
-        this.methodProperties = {
-            "Documents": [
-                {
-                    "DocumentNumber": ttnId,
-                    "Phone":""
-                },                    
-            ]
-        };
-        
-    }
-}
+/*
 class TtnList {
     constructor(DateFrom,DateTo){               
         this.modelName = "InternetDocument";
@@ -42,19 +14,45 @@ class TtnList {
         
 }*/
 /***********************************************************/
+/*class RequestFactory {
 
+    createRequest (type,apiKey,data) {     
+       let body; 
+       if (type === 'Treking') {
+           body = new Treking(data.ttnId);
+       }
+       body.apiKey = apiKey;
+
+   }
+ }
+ */
+class Treking {
+    constructor(apiKey,ttnId){               
+        this.apiKey = apiKey;
+        this.modelName = "TrackingDocument";
+        this.calledMethod = "getStatusDocuments";
+        this.methodProperties = {
+            "Documents": [
+                {
+                    "DocumentNumber": ttnId,
+                    "Phone":""
+                },                    
+            ]
+        };
+        
+    }
+}
+
+/*******************************************************/
 
 class TTNApi {
     constructor(apiKey){
         this.apiKey = apiKey;        
     }
 
-    getTTN(ttnId){
-        console.log('send request for status of ' + ttnId);
-       // let body = RequestFactory.createRequest('Treking',apiKey,ttnId);
-
+    getTTN(ttnId){              
         
-        let body = { //TODO : create new class Treking
+        /*let body = { //TODO : create new class Treking
             "apiKey": this.apiKey,
             "modelName": "TrackingDocument",
             "calledMethod": "getStatusDocuments",
@@ -67,20 +65,18 @@ class TTNApi {
                 ]
             }
             
-        };
+        };*/
+        const body = new Treking(this.apiKey,ttnId);
 
-       const response = fetch('https://api.novaposhta.ua/v2.0/json/',{
+        const response = fetch('https://api.novaposhta.ua/v2.0/json/',{
             method: 'POST',
             body: JSON.stringify(body)
         })
         .then(response => response.json())
         .then(response =>  response.data[0])
-        .then(data =>  { // create TTN obj 
-            const ttn = new TTN(data.Number,
-                                data.StatusCode,
-                                data.Status,
-                                data.WarehouseRecipient,
-                                data.WarehouseSender);   //TODO: add  WarehouseRecipient, WarehouseSender 
+        .then(data =>  {            
+            // create TTN obj 
+            const ttn = new TTN(data);
           
             return ttn;    
         })       
@@ -93,44 +89,47 @@ class TTNApi {
 }
 
 class TTN {
-    constructor(ttnId,statusCode,status,recipient,sender){        
-        this.ttnId = ttnId;
-        this.statusCode = statusCode;
-        this.status = status;
-        this.recipient = recipient;
-        this.sender = sender;
-    
+    constructor(data){
+        
+        this.data = data;                
     }
     viewStatusInfo(resultContainer){
-        //return HTML 
-        console.dir(this);
-        let resultHtml = '';
-        resultHtml = `<p>Status: ${this.status}</p>`;
-        if(this.recipient) resultHtml += `<p><b>Recipient:</b> ${this.recipient}</p>`;
-        if(this.sender) resultHtml += `<p><b>Sender:</b> ${this.sender}</p>`;
+        const {
+            Number,
+            Status,
+            StatusCode,
+            ActualDeliveryDate,
+            CityRecipient,
+            CitySender,
+            WarehouseRecipient,
+            WarehouseSender,
+        } = this.data;
+                
+        let resultHtml = `<p>Status: ${Status}</p>`;
+        if(WarehouseRecipient) resultHtml += `<p><b>Recipient:</b> ${CityRecipient}. ${WarehouseRecipient}</p>`;
+        if(WarehouseSender) resultHtml += `<p><b>Sender:</b> ${CitySender}. ${WarehouseSender}</p>`;
         
-        resultContainer.innerHTML = resultHtml;
-        console.log('render html status info');
+        resultContainer.innerHTML = resultHtml;        
     }    
 }
-
+/********************************************************************/
 class TTNForm {
 
     constructor(apiKey){
+        this.apiKey = apiKey; 
         this.form = document.querySelector("#ttn-status-form"); 
-        this.ttnNumberElem = this.form.querySelector("#ttn_number");        
+        this.ttnNumberElem = this.form.querySelector("#ttn_number");    
+        this.message = this.form.querySelector("#ttn_number__error");
            
-        this.regExForTTN = /^(5|2|1)[0-9]{13}$/; // common regEx : firstsymbol 5|2|1 , 14 symbols in ttn, only numeric
+        this.regExForTTN = /^(5|2|1)[0-9]{13}$/;
         this.TTNApi = new TTNApi(apiKey);
-        this.ttnHistory = new TTN_History(apiKey);
 
         this.statusInfoContainer = document.querySelector("#ttn-status-result");
         
     }
 
     isValidNumber(){        
-        if (!this.regExForTTN.test(this.ttnNumberElem.value)) {
-            console.log(this.ttnNumberElem.value + ' is not valid');
+        if (!this.regExForTTN.test(this.ttnNumberElem.value)) {           
             return false;
         }        
         return true;
@@ -139,37 +138,44 @@ class TTNForm {
         event.preventDefault();              
 
         if(this.isValidNumber()){
+            this.ttnNumberElem.classList.remove('invalid');
+            this.message.classList.remove('show');            
+
             const response = this.TTNApi.getTTN(this.ttnNumberElem.value);                           
 
-            //add to history here!               
+                         
             response.then(ttn => {
                 ttn.viewStatusInfo(this.statusInfoContainer);
-                this.ttnHistory.addToHistory(ttn.ttnId);
-                //ttn.addToHistory();
-            });
-            
+                this.ttnHistory.addToHistory(ttn.data.Number);                
+            });            
+        }else{
+            this.ttnNumberElem.classList.add('invalid');
+            this.message.classList.add('show');
+            this.statusInfoContainer.innerHTML = '';
         }      
     }    
 
-    init(){        
+    init(){  
+        this.ttnHistory = new TTN_History(this.apiKey/*,this*/);      
         this.form.onsubmit = this.getInfo.bind(this);       
         this.ttnHistory.viewHistoryBlock();
     }    
 }
+
 /***************************************************/
 
-class TTN_History{ //add constructore (apiKey), remove static
-    constructor(apiKey){
+class TTN_History{ 
+    constructor(apiKey/*,ttnForm*/){ 
         this.ttnApi = new TTNApi(apiKey);
+      //  this.ttnForm = ttnForm; // get from  novaPoshtaForm ?
         this.statusInfoContainer = document.querySelector("#ttn-status-result");
     }
+
     getHistoryTtns(){
         let ttns = JSON.parse(localStorage.getItem('historyTtns') || '[]');       
         return ttns;
     }
-    addToHistory(ttnId){
-        //save with localStorage ?
-        console.log('add to history '+ttnId);
+    addToHistory(ttnId){                
         
         let ttns = JSON.parse(localStorage.getItem('historyTtns') || '[]' );
        
@@ -179,23 +185,23 @@ class TTN_History{ //add constructore (apiKey), remove static
             this.viewHistoryBlock();               
         }
     }
-    getHistoryInfo(event){         
-        //console.dir(event.target.innerText);
-        const ttn = event.target.innerText;   
-        //const ttnApi = new TTNApi('f32192aa4b7940e82fbe254e62673948'); 
-       // console.dir(ttn);
+    getHistoryInfo(event){                               
+        
+        const ttn = event.target.innerText;           
+        //this.ttnForm.ttnNumberElem.value = ttn;
+
+        novaPoshtaForm.ttnNumberElem.value = ttn;
+
         const response = this.ttnApi.getTTN(ttn);  
         response.then(ttn => {
             ttn.viewStatusInfo(this.statusInfoContainer);           
-        });   
-                        
+        });            
                
      }
 
     viewHistoryBlock(){
         const ttnHistoryContainer = document.querySelector(".ttns-history__result");
-        const ttns = this.getHistoryTtns();
-      //  console.log('render html history block');
+        const ttns = this.getHistoryTtns();      
 
         if(!!ttns.length){
            
@@ -203,7 +209,8 @@ class TTN_History{ //add constructore (apiKey), remove static
            
             ttns.forEach(ttn => { 
 
-                const li = document.createElement('li');//add onclick event
+                const li = document.createElement('li');
+                li.classList.add('ttns-history__result-item');
                                 
                 li.onclick = this.getHistoryInfo.bind(this);
                 ul.appendChild(li);
@@ -212,9 +219,7 @@ class TTN_History{ //add constructore (apiKey), remove static
             });
             ttnHistoryContainer.innerHTML = '';            
             ttnHistoryContainer.appendChild(ul);
-            
-
-          
+                      
             //add button 'clear history'
             const btnClear = document.createElement("button");
             btnClear.innerHTML = "Clear history";
@@ -225,15 +230,12 @@ class TTN_History{ //add constructore (apiKey), remove static
             ttnHistoryContainer.innerHTML = 'The history is empty';
         }
     }
-    deleteHistory(){
-       // console.log('delete all history');
+    deleteHistory(){       
         localStorage.removeItem('historyTtns');
         this.viewHistoryBlock();
     }
 
 }
-
-
 
 const novaPoshtaForm = new TTNForm('f32192aa4b7940e82fbe254e62673948');
 novaPoshtaForm.init();
