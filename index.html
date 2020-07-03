@@ -18,9 +18,10 @@
     <div class="container">                        
         <main class="container__main">     
             <h1>JS homework with API novaposhta</h1> 
-            <form id="ttn-status-form" action="/" method="GET">
-                <input placeholder="TTN number" type="text" value="59000509805747" name="ttn_number" id="ttn_number" class="form-text-element">
+            <form id="ttn-status-form" action="/" method="GET">                
+                <input placeholder="TTN number" type="text" value="59000509805747" name="ttn_number" id="ttn_number" class="form-text-element">                
                 <button class="form-btn" type="submit">Get status TTN</button>                
+                <div id="ttn_number__error" class="ttn-status-form__error">14 symbols only. First symbol should be 5,2 or 1. Only numbers</div>                
             </form>  
             <div id="ttn-status-result"></div>                          
         </main>
