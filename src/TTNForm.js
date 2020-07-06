@@ -3,16 +3,20 @@ import TTNHistory from "./TTNHistory";
 
 class TTNForm {
 
-    constructor(apiKey){
+    constructor(settings){
+        const {apiKey} = settings;
+
         this.apiKey = apiKey; 
+
         this.form = document.querySelector("#ttn-status-form"); 
         this.ttnNumberElem = this.form.querySelector("#ttn_number");    
         this.message = this.form.querySelector("#ttn_number__error");
            
         this.regExForTTN = /^(5|2|1)[0-9]{13}$/;
-        this.TTNApi = new TTNApi(apiKey);
+        this.TTNApi = new TTNApi(settings);                
 
         this.statusInfoContainer = document.querySelector("#ttn-status-result");
+        this.ttnHistory = new TTNHistory(settings,this);
         
     }
 
@@ -43,10 +47,9 @@ class TTNForm {
         }      
     }    
 
-    init(){  
-        this.ttnHistory = new TTNHistory(this.apiKey,this);      
+    init(){         
         this.form.onsubmit = this.getInfo.bind(this);       
-        this.ttnHistory.viewHistoryBlock();
+        this.ttnHistory.render();
     }    
 }
 

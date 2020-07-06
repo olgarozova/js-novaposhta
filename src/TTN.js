@@ -5,7 +5,8 @@ import Sender from "./Sender";
 class TTN {
     constructor(data){
         
-        this.data = data;                
+        this.data = data;  
+        this.ElementStatus = document.createElement('p');         
     }
     viewStatusInfo(resultContainer){
         const {        
@@ -16,14 +17,20 @@ class TTN {
             WarehouseSender,
         } = this.data;
 
-        const recipient = new Recipient({CityRecipient,WarehouseRecipient});
-                
-        let resultHtml = `<p>Status: ${Status}</p>`;
-       // if(WarehouseRecipient) resultHtml += `<p><b>Recipient:</b> ${CityRecipient}. ${WarehouseRecipient}</p>`;
-       
-        if(WarehouseSender) resultHtml += `<p><b>Sender:</b> ${CitySender}. ${WarehouseSender}</p>`;
-        
-        resultContainer.innerHTML = resultHtml;        
+        resultContainer.innerHTML = "";
+
+        this.ElementStatus.classList.add('ttn-status-result__status');       
+        this.ElementStatus.innerHTML = 'Status: ' + Status;
+        resultContainer.appendChild(this.ElementStatus);
+        if(WarehouseRecipient){       
+            const recipient = new Recipient({CityRecipient,WarehouseRecipient});        
+            resultContainer.appendChild(recipient.render());
+        }
+        if(WarehouseSender){       
+            const sender = new Sender({CitySender,WarehouseSender});
+            resultContainer.appendChild(sender.render());
+        }
+                       
     }    
 }
 
