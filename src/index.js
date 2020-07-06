@@ -1,4 +1,5 @@
 import TTNForm from "./TTNForm";
+import settings from "./settings";
 
-const novaPoshtaForm = new TTNForm('f32192aa4b7940e82fbe254e62673948');
+const novaPoshtaForm = new TTNForm(settings);
 novaPoshtaForm.init();

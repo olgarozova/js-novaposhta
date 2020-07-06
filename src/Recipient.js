@@ -1,6 +1,7 @@
 class Recipient{
     constructor(data){
-        this.data = data;   
+        this.data = data;  
+        this.ElementRecipient = document.createElement('p'); 
     }
     render(){
         const {                    
@@ -8,7 +9,8 @@ class Recipient{
             WarehouseRecipient
         } = this.data;
 
-        return `<p><b>Recipient:</b> ${CityRecipient}. ${WarehouseRecipient}</p>`;
+        this.ElementRecipient.innerHTML = `Recipient: ${CityRecipient}. ${WarehouseRecipient}`;        
+        return this.ElementRecipient;
     }
 }
 

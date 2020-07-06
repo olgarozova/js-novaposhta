@@ -1,21 +1,23 @@
 import TTN from "./TTN";
 import Treking from "./Treking";
-//import settings from "./settings";
 
 /*
 * TTN API class
 */
 
 class TTNApi {
-    constructor(apiKey){
-        this.apiKey = apiKey;        //add destruction settings //settings
+    constructor(settings){
+        const {apiKey,baseUrl} = settings;
+
+        this.apiKey = apiKey;
+        this.baseUrl = baseUrl;
     }
 
     getTTN(ttnId){              
 
         const body = new Treking(this.apiKey,ttnId);
 
-        const response = fetch('https://api.novaposhta.ua/v2.0/json/',{
+        const response = fetch(this.baseUrl ,{
             method: 'POST',
             body: JSON.stringify(body)
         })

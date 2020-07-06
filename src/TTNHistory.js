@@ -1,9 +1,10 @@
 import TTNApi from "./TTNApi";
 
 class TTNHistory{ 
-    constructor(apiKey,ttnForm){ 
-        this.ttnApi = new TTNApi(apiKey);
-        this.ttnForm = ttnForm; // get from  novaPoshtaForm ?
+    constructor(settings,ttnForm){       
+                
+        this.ttnApi = new TTNApi(settings);
+        this.ttnForm = ttnForm; 
         this.statusInfoContainer = document.querySelector("#ttn-status-result");
     }
 
@@ -18,15 +19,13 @@ class TTNHistory{
         if(!ttns.includes(ttnId)) {
             ttns.push(ttnId);        
             localStorage.setItem('historyTtns',JSON.stringify(ttns)); 
-            this.viewHistoryBlock();               
+            this.render();               
         }
     }
     getHistoryInfo(event){                               
         
         const ttn = event.target.innerText;           
-        this.ttnForm.ttnNumberElem.value = ttn;
-
-       // novaPoshtaForm.ttnNumberElem.value = ttn;
+        this.ttnForm.ttnNumberElem.value = ttn;       
 
         const response = this.ttnApi.getTTN(ttn);  
         response.then(ttn => {
@@ -35,7 +34,7 @@ class TTNHistory{
                
      }
 
-    viewHistoryBlock(){
+    render(){
         const ttnHistoryContainer = document.querySelector(".ttns-history__result");
         const ttns = this.getHistoryTtns();      
 
@@ -68,7 +67,7 @@ class TTNHistory{
     }
     deleteHistory(){       
         localStorage.removeItem('historyTtns');
-        this.viewHistoryBlock();
+        this.render();
     }
 
 }
