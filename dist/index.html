@@ -18,12 +18,23 @@
     <div class="container">                        
         <main class="container__main">     
             <h1>JS homework with API novaposhta</h1> 
-            <form id="ttn-status-form" action="/" method="GET">                
+            <form id="ttn-status-form" action="/" method="GET" class="ttn-status-form">                
                 <input placeholder="TTN number" type="text" value="59000509805747" name="ttn_number" id="ttn_number" class="form-text-element">                
                 <button class="form-btn" type="submit">Get status TTN</button>                
                 <div id="ttn_number__error" class="ttn-status-form__error">14 symbols only. First symbol should be 5,2 or 1. Only numbers</div>                
             </form>  
-            <div id="ttn-status-result"></div>                          
+            <div id="ttn-status-result" class="container__main-result"></div> 
+            
+
+
+            <form id="search-warehouses-form" action="/" method="GET" class = "search-warehouses-form">
+                <input placeholder="Enter city" type="text" autocomplete="off" value="" name="city" id="cityName" class="form-text-element">
+                <ul id="cities-drop-down-ul" class="search-warehouses__list search-warehouses__list-hide"></ul>
+                <button class="form-btn" type="submit">Search warehouses</button>
+            </form>            
+            <div id="warehouses-result" class="container__main-result"></div> 
+
+
         </main>
         <aside class="container__sidebar"> 
             <div class="ttns-history"> 

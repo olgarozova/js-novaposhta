@@ -1,5 +1,9 @@
 import TTNForm from "./TTNForm";
+import SearchWarehouseForm from "./SearchWarehouseForm";
 import settings from "./settings";
 
-const novaPoshtaForm = new TTNForm(settings);
-novaPoshtaForm.init();
+const getTTnStatusForm = new TTNForm(settings);
+getTTnStatusForm.init();
+
+const searchWarehouseForm = new SearchWarehouseForm(settings);
+searchWarehouseForm.init();

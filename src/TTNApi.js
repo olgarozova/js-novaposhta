@@ -1,5 +1,4 @@
-import TTN from "./TTN";
-import Treking from "./Treking";
+import BodyCreator from "./BodyCreator";
 
 /*
 * TTN API class
@@ -13,28 +12,32 @@ class TTNApi {
         this.baseUrl = baseUrl;
     }
 
-    getTTN(ttnId){              
-
-        const body = new Treking(this.apiKey,ttnId);
-
-        const response = fetch(this.baseUrl ,{
-            method: 'POST',
+    sendRequest(baseUrl,method,body){
+        const response = fetch(baseUrl ,{
+            method: method,
             body: JSON.stringify(body)
         })
-        .then(response => response.json())
-        .then(response =>  response.data[0])
-        .then(data =>  {            
-            // create TTN obj 
-            const ttn = new TTN(data);
-          
-            return ttn;    
-        })       
+        .then(response => response.json())           
         .catch(error => alert('HTTP request error.  ' + error)); 
 
-        return response;                    
-    }       
-    
-    //my individual function
+        return response; 
+    }
+
+    getTTN(ttnId){                      
+        const body = new BodyCreator(this.apiKey).create('Treking',{ttnId});// console.dir(body);  
+        return this.sendRequest(this.baseUrl,"POST",body);                
+    }   
+
+    searchSettlements(city) { // населенные пункты по названию из инпута       
+        const body = new BodyCreator(this.apiKey).create('Settlements',{city});
+        return this.sendRequest(this.baseUrl,"POST",body);   
+    }
+
+    getWarehouses() {//  отделения по коду города //getWarehouses         
+        const body = new BodyCreator(this.apiKey).create('warehouses');
+        return this.sendRequest(this.baseUrl,"POST",body);  
+    }        
+        
 }
 
 export default TTNApi;
