@@ -1,5 +1,6 @@
 import TTNApi from "./TTNApi";
 import TTNHistory from "./TTNHistory"; 
+import TTN from "./TTN";
 
 class TTNForm {
 
@@ -9,6 +10,7 @@ class TTNForm {
         this.apiKey = apiKey; 
 
         this.form = document.querySelector("#ttn-status-form"); 
+        this.form.onsubmit = this.getInfo.bind(this);
         this.ttnNumberElem = this.form.querySelector("#ttn_number");    
         this.message = this.form.querySelector("#ttn_number__error");
            
@@ -35,8 +37,13 @@ class TTNForm {
 
             const response = this.TTNApi.getTTN(this.ttnNumberElem.value);                           
 
-                         
-            response.then(ttn => {
+            response.then(response => response.data[0])
+            .then(data =>  {            
+                // create TTN obj 
+                const ttn = new TTN(data);              
+                return ttn;    
+            })
+            .then(ttn => {
                 ttn.viewStatusInfo(this.statusInfoContainer);
                 this.ttnHistory.addToHistory(ttn.data.Number);                
             });            
@@ -47,9 +54,8 @@ class TTNForm {
         }      
     }    
 
-    init(){         
-        this.form.onsubmit = this.getInfo.bind(this);       
-        this.ttnHistory.render();
+    init(){                
+        this.ttnHistory.render();       
     }    
 }
 

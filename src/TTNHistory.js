@@ -1,8 +1,9 @@
 import TTNApi from "./TTNApi";
+import TTN from "./TTN";
 
 class TTNHistory{ 
     constructor(settings,ttnForm){       
-                
+
         this.ttnApi = new TTNApi(settings);
         this.ttnForm = ttnForm; 
         this.statusInfoContainer = document.querySelector("#ttn-status-result");
@@ -27,8 +28,13 @@ class TTNHistory{
         const ttn = event.target.innerText;           
         this.ttnForm.ttnNumberElem.value = ttn;       
 
-        const response = this.ttnApi.getTTN(ttn);  
-        response.then(ttn => {
+        const response = this.ttnApi.getTTN(ttn); 
+        response.then(response => response.data[0])
+        .then(data =>  {                 
+                const ttn = new TTN(data);              
+                return ttn;    
+        }) 
+        .then(ttn => {
             ttn.viewStatusInfo(this.statusInfoContainer);           
         });            
                
@@ -59,7 +65,9 @@ class TTNHistory{
             const btnClear = document.createElement("button");
             btnClear.innerHTML = "Clear history";
             btnClear.classList.add('form-btn');
-            btnClear.onclick = this.deleteHistory.bind(this);                
+            btnClear.onclick = this.deleteHistory.bind(this);       //remove bind . add =>         
+          //  btnClear.onclick = this.deleteHistory;
+           
             ttnHistoryContainer.appendChild(btnClear);  
         }else{           
             ttnHistoryContainer.innerHTML = 'The history is empty';
@@ -69,6 +77,11 @@ class TTNHistory{
         localStorage.removeItem('historyTtns');
         this.render();
     }
+    
+    /*deleteHistory = () => {       
+        localStorage.removeItem('historyTtns');
+        this.render();
+    }*/
 
 }
 export default TTNHistory;

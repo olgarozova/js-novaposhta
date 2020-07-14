@@ -82,3 +82,15 @@ form input:focus{
 .ttn-status-form__error.show{
     display: block;
 }
+
+.search-warehouses__list{
+    position: absolute;
+    background: white;
+    border: 1px solid #bbb;
+}
+.search-warehouses__list-hide{
+    display: none;
+}
+.cities-drop-down-ul__li{
+    cursor: pointer;
+}
