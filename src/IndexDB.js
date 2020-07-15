@@ -7,7 +7,7 @@ class IndexDB{
 
     openDB(){
         const idb = window.indexedDB || window.mozIndexedDB ||  window.webkitIndexedDB; //add if (idb)
-        return idb.open(this.dbStore);
+        return idb.open(this.dbStore,3);
     }
 
     getWarhousesFromDB(cityRef,warehousesContainer){
@@ -42,11 +42,11 @@ class IndexDB{
             };
         }
     }
-    addWarehousesToBD(data){ 
+    addWarehousesToBD(data){       
 
         const request = this.openDB();                      
-
-        request.onerror = function(event) {                
+        
+        request.onerror = function(event) {
             alert("Database error: " + event.target.error);
         };
         request.onsuccess = function(event) {

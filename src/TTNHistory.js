@@ -65,8 +65,8 @@ class TTNHistory{
             const btnClear = document.createElement("button");
             btnClear.innerHTML = "Clear history";
             btnClear.classList.add('form-btn');
-            btnClear.onclick = this.deleteHistory.bind(this);       //remove bind . add =>         
-          //  btnClear.onclick = this.deleteHistory;
+            btnClear.onclick = this.deleteHistory.bind(this); 
+          
            
             ttnHistoryContainer.appendChild(btnClear);  
         }else{           
@@ -77,11 +77,6 @@ class TTNHistory{
         localStorage.removeItem('historyTtns');
         this.render();
     }
-    
-    /*deleteHistory = () => {       
-        localStorage.removeItem('historyTtns');
-        this.render();
-    }*/
 
 }
 export default TTNHistory;
