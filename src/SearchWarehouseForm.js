@@ -18,7 +18,7 @@ class SearchWarehouseForm{
         this.warehousesContainer = document.querySelector("#warehouses-result");
         this.CitiesContainerId = 'cities-drop-down-ul';         
                 
-        this.indexDB = new IndexDB('WarehousesNP3');
+        this.indexDB = new IndexDB('WarehousesNP');
                                 
     }
 
@@ -40,15 +40,31 @@ class SearchWarehouseForm{
             alert('Please, select city from dropdown list.');
         }        
     }
-        
-    init(){
-        //TODO setInterval 1 per day get warehouses
+    setWarehousesDB(){
         const response = this.TTNApi.getWarehouses();        
         response.then(response => response.data)
         .then(data => {
            // console.dir(data);
             this.indexDB.addWarehousesToBD(data);           
-        });                
+            localStorage.setItem('createIndexDB',new Date().getTime());
+        });
+    }
+        
+    init(){ 
+        // delay 86400000 ms; // 1 day        
+        const createDBDate = localStorage.getItem('createIndexDB');                 
+        if(!createDBDate) {
+            this.setWarehousesDB();
+            return;
+        }
+            
+        const currentDate = new Date();
+        if(currentDate.getTime() - createDBDate >= 86400000)  {
+            window.indexedDB.deleteDatabase(this.indexDB.dbStore);
+            localStorage.removeItem('createIndexDB');
+            this.setWarehousesDB();              
+        }
+        
     }
 }
 export default SearchWarehouseForm;

@@ -34,7 +34,7 @@ class TTNApi {
     }
 
     getWarehouses() {//  отделения по коду города //getWarehouses         
-        const body = new BodyCreator(this.apiKey).create('warehouses');
+        const body = new BodyCreator(this.apiKey).create('Warehouses');
         return this.sendRequest(this.baseUrl,"POST",body);  
     }        
         
