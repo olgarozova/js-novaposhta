@@ -24,8 +24,8 @@ class IndexDB{
            const cursorIndex = index.openCursor(singleKeyRange);
 
            cursorIndex.onerror = function(event) {
-                    // Handle errors!
-            };
+                    
+           };
             cursorIndex.onsuccess = function(event) {
                 const res = event.target.result;
                 
@@ -65,6 +65,7 @@ class IndexDB{
             if(!db.objectStoreNames.contains("warehouses")) {
                 const objectStore = db.createObjectStore("warehouses", { keyPath: "SiteKey" });
                 objectStore.createIndex("SettlementRef","SettlementRef", {unique:false});
+               // objectStore.createIndex("Number","Number", {unique:false});
             }
 
         };           

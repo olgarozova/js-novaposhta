@@ -1,39 +1,28 @@
+import BodyTreking from "./BodyTreking";
+import BodySettlements from "./BodySettlements";
+import BodyWarehouses from "./BodyWarehouses";
+
 class BodyCreator{
     constructor(apiKey){
         this.apiKey = apiKey;
     }
     create(type,data = {}){
-        if(type === 'Treking'){
-            const {ttnId} = data;                              
-                this.modelName = "TrackingDocument";
-                this.calledMethod = "getStatusDocuments";
-                this.methodProperties = {
-                    "Documents": [
-                        {
-                            "DocumentNumber": ttnId,
-                            "Phone":""
-                        },                    
-                    ]
-                };                       
+        let body = {};        
+        switch (type) {
+            case "BodyTreking":
+                body = new BodyTreking(data);
+                break;
+            case "BodySettlements":
+                body = new BodySettlements(data);
+                break;
+            case "BodyWarehouses":
+                body = new BodyWarehouses(data);
+                break;           
         }
-        if(type === 'Settlements'){
-            const {city} = data;
-            this.modelName = "Address",
-            this.calledMethod = "searchSettlements",
-            this.methodProperties = {
-                "CityName": city        
-            }
-        }
-        if(type === 'Warehouses'){            
-            this.modelName = "AddressGeneral",
-            this.calledMethod = "getWarehouses",
-            this.methodProperties = {
-                "Language": "ru"        
-            }
-        }        
-    return this;
-    }
 
+        body.apiKey = this.apiKey;             
+        return body;
+    }
 }
 
 export default BodyCreator;

@@ -24,17 +24,17 @@ class TTNApi {
     }
 
     getTTN(ttnId){                      
-        const body = new BodyCreator(this.apiKey).create('Treking',{ttnId});// console.dir(body);  
+        const body = new BodyCreator(this.apiKey).create('BodyTreking',{ttnId});
         return this.sendRequest(this.baseUrl,"POST",body);                
     }   
 
     searchSettlements(city) { // населенные пункты по названию из инпута       
-        const body = new BodyCreator(this.apiKey).create('Settlements',{city});
+        const body = new BodyCreator(this.apiKey).create('BodySettlements',{city});
         return this.sendRequest(this.baseUrl,"POST",body);   
     }
 
     getWarehouses() {//  отделения по коду города //getWarehouses         
-        const body = new BodyCreator(this.apiKey).create('Warehouses');
+        const body = new BodyCreator(this.apiKey).create('BodyWarehouses');
         return this.sendRequest(this.baseUrl,"POST",body);  
     }        
         
