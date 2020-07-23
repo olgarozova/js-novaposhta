@@ -33,13 +33,12 @@ class TTNForm {
 
         if(this.isValidNumber()){
             this.ttnNumberElem.classList.remove('invalid');
-            this.message.classList.remove('show');            
+            this.message.classList.remove('ttn-status-form__error-show');            
 
             const response = this.TTNApi.getTTN(this.ttnNumberElem.value);                           
 
             response.then(response => response.data[0])
-            .then(data =>  {            
-                // create TTN obj 
+            .then(data =>  {                            
                 const ttn = new TTN(data);              
                 return ttn;    
             })
@@ -49,7 +48,7 @@ class TTNForm {
             });            
         }else{
             this.ttnNumberElem.classList.add('invalid');
-            this.message.classList.add('show');
+            this.message.classList.add('ttn-status-form__error-show');
             this.statusInfoContainer.innerHTML = '';
         }      
     }    

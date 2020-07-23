@@ -8,11 +8,15 @@ class CitiesList{
     }
     render(){    
         this.container.innerHTML = '';
-        this.container.classList.remove('search-warehouses__list-hide');        
+               
         const citiesList =  this.cities.map( city => new City(city,this.container).render()        
-        );
-        
-        this.container.append(...citiesList);
+        );        
+        if(citiesList.length) { 
+            this.container.classList.remove('search-warehouses__list-hide'); 
+            this.container.append(...citiesList);
+            return;
+        }
+        this.container.classList.add('search-warehouses__list-hide'); 
     }
 }
 

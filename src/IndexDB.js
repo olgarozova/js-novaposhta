@@ -31,7 +31,7 @@ class IndexDB{
                 
                 if(res) {                   
                     
-                    const warehouse = new Warehouse(res.value);
+                    const warehouse = new Warehouse(res.value);                    
                     warehousesContainer.append(warehouse.render());
                     
                     res.continue();                        
