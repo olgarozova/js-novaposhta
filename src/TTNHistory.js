@@ -46,7 +46,8 @@ class TTNHistory{
 
         if(ttns.length){
            
-            const ul = document.createElement('ul');          
+            const ul = document.createElement('ul');
+            ul.classList.add('ttns-history__result-list');          
            
             ttns.forEach(ttn => { 
 
