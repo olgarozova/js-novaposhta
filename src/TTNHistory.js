@@ -1,5 +1,6 @@
 import TTNApi from "./TTNApi";
 import TTN from "./TTN";
+import Dictionary from "./Dictionary";
 
 class TTNHistory{ 
     constructor(settings,ttnForm){       
@@ -64,14 +65,14 @@ class TTNHistory{
                       
             //add button 'clear history'
             const btnClear = document.createElement("button");
-            btnClear.innerHTML = "Clear history";
+            btnClear.innerHTML = Dictionary.t("Clear history");
             btnClear.classList.add('form-btn');
             btnClear.onclick = this.deleteHistory.bind(this); 
           
            
             ttnHistoryContainer.appendChild(btnClear);  
         }else{           
-            ttnHistoryContainer.innerHTML = 'The history is empty';
+            ttnHistoryContainer.innerHTML = Dictionary.t('The history is empty');
         }
     }
     deleteHistory(){       

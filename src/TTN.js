@@ -1,5 +1,6 @@
 import Recipient from "./Recipient";
 import Sender from "./Sender";
+import Dictionary from "./Dictionary";
 
 
 class TTN {
@@ -20,7 +21,7 @@ class TTN {
         resultContainer.innerHTML = "";
 
         this.ElementStatus.classList.add('ttn-status-result__status');       
-        this.ElementStatus.innerHTML = 'Status: ' + Status;
+        this.ElementStatus.innerHTML = `${Dictionary.t("Status")}:  + ${Status}`;
         resultContainer.appendChild(this.ElementStatus);
         if(WarehouseRecipient){       
             const recipient = new Recipient({CityRecipient,WarehouseRecipient});        
