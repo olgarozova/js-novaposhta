@@ -22,8 +22,7 @@ class Warehouse{
                 
         const type = (CategoryOfWarehouse === "Postomat") ? "P-t" : "WH";        
         const maxWeight = TotalMaxWeightAllowed !== '0'  ? TotalMaxWeightAllowed : PlaceMaxWeightAllowed;
-     
-        //this.ElementWarehouse.innerHTML = `${type}: ${Number}. ${ShortAddress} (${maxWeight} kg) `;  
+             
         this.ElementWarehouseNumber.innerHTML = `${type}: ${Number}`;
         this.ElementWarehouseNumber.classList.add('search-warehouses__item-number');
         this.ElementWarehouse.append(this.ElementWarehouseNumber);

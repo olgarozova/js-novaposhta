@@ -1,3 +1,5 @@
+import Dictionary from "./Dictionary";
+
 class Recipient{
     constructor(data){
         this.data = data;  
@@ -9,7 +11,7 @@ class Recipient{
             WarehouseRecipient
         } = this.data;
 
-        this.ElementRecipient.innerHTML = `Recipient: ${CityRecipient}. ${WarehouseRecipient}`;        
+        this.ElementRecipient.innerHTML = `${Dictionary.t("Recipient")}: ${CityRecipient}. ${WarehouseRecipient}`;        
         return this.ElementRecipient;
     }
 }

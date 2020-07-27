@@ -21,6 +21,7 @@ class IndexDB{
            
            const index = objectStore.index("SettlementRef");
            const singleKeyRange = IDBKeyRange.only(cityRef);
+          
            const cursorIndex = index.openCursor(singleKeyRange);
 
            cursorIndex.onerror = function(event) {
@@ -65,7 +66,8 @@ class IndexDB{
             if(!db.objectStoreNames.contains("warehouses")) {
                 const objectStore = db.createObjectStore("warehouses", { keyPath: "SiteKey" });
                 objectStore.createIndex("SettlementRef","SettlementRef", {unique:false});
-               // objectStore.createIndex("Number","Number", {unique:false});
+                objectStore.createIndex("Number","Number", {unique:false});
+               // objectStore.createIndex("Ref-Number",["SettlementRef","Number"]);
             }
 
         };           
