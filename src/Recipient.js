@@ -3,7 +3,8 @@ import Dictionary from "./Dictionary";
 class Recipient{
     constructor(data){
         this.data = data;  
-        this.ElementRecipient = document.createElement('p'); 
+        this.ElementRecipient = document.createElement('p');
+        this.dictionary = new Dictionary(); 
     }
     render(){
         const {                    
@@ -11,7 +12,7 @@ class Recipient{
             WarehouseRecipient
         } = this.data;
 
-        this.ElementRecipient.innerHTML = `${Dictionary.t("Recipient")}: ${CityRecipient}. ${WarehouseRecipient}`;        
+        this.ElementRecipient.innerHTML = `${this.dictionary.t("Recipient")}: ${CityRecipient}. ${WarehouseRecipient}`;        
         return this.ElementRecipient;
     }
 }

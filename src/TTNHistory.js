@@ -8,6 +8,7 @@ class TTNHistory{
         this.ttnApi = new TTNApi(settings);
         this.ttnForm = ttnForm; 
         this.statusInfoContainer = document.querySelector("#ttn-status-result");
+        this.dictionary = new Dictionary();
     }
 
     getHistoryTtns(){
@@ -25,9 +26,10 @@ class TTNHistory{
         }
     }
     getHistoryInfo(event){                               
-        
+                
         const ttn = event.target.innerText;           
-        this.ttnForm.ttnNumberElem.value = ttn;       
+        this.ttnForm.ttnNumberElem.value = ttn;          
+        this.ttnForm.clearError();
 
         const response = this.ttnApi.getTTN(ttn); 
         response.then(response => response.data[0])
@@ -62,17 +64,16 @@ class TTNHistory{
             });
             ttnHistoryContainer.innerHTML = '';            
             ttnHistoryContainer.appendChild(ul);
-                      
-            //add button 'clear history'
+                                  
             const btnClear = document.createElement("button");
-            btnClear.innerHTML = Dictionary.t("Clear history");
+            btnClear.innerHTML = this.dictionary.t("Clear history");
             btnClear.classList.add('form-btn');
             btnClear.onclick = this.deleteHistory.bind(this); 
           
            
             ttnHistoryContainer.appendChild(btnClear);  
         }else{           
-            ttnHistoryContainer.innerHTML = Dictionary.t('The history is empty');
+            ttnHistoryContainer.innerHTML = this.dictionary.t('The history is empty');
         }
     }
     deleteHistory(){       

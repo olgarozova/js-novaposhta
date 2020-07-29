@@ -25,11 +25,11 @@
         <div id="content" class="center__container">
             <div id="tab1" class = "center__container-tab">                        
                 <main class="container__main">     
-                    <div class = "center__container-tab-title">Track your TTN</div>
+                    <div id = "tab1-container-title" class = "center__container-tab-title">Track your TTN</div>
                     <div class = "center__container-tab-content ttn-status">
                     <form id="ttn-status-form" action="/" method="GET" class="ttn-status-form">                
                         <input placeholder="Enter TTN number" type="text" value="59000509805747" name="ttn_number" id="ttn_number" class="ttn-status__number form-text-element">                
-                        <button class="ttn-status__submit form-btn" type="submit">Get status TTN</button>                
+                        <button id = "ttn-status-submit" class="ttn-status__submit form-btn" type="submit">Get status TTN</button>                
                         <div id="ttn_number__error" class="ttn-status-form__error">14 symbols only. First symbol should be 5,2 or 1. Only numbers</div>                
                     </form>  
                     <div id="ttn-status-result" class="ttn-status__result"></div>   
@@ -43,12 +43,12 @@
                 </aside> 
              </div>
              <div id="tab2" class = "center__container-tab">
-                <div class = "center__container-tab-title">Search by number or location</div>
+                <div id = "tab2-container-title" class = "center__container-tab-title">Search by number or location</div>
                 <div class = "center__container-tab-content search-warehouses">
                     <form id="search-warehouses-form" action="/" method="GET" class = "search-warehouses-form">
                         <input placeholder="Enter city" type="text" autocomplete="off" value="" name="city" id="cityName" class="search-warehouses__city form-text-element">
                         <ul id="cities-drop-down-ul" class="search-warehouses__list search-warehouses__list-hide"></ul>
-                        <button class="search-warehouses__submit form-btn" type="submit">Search warehouses</button>
+                        <button id = "search-warehouses-submit" class="search-warehouses__submit form-btn" type="submit">Search warehouses</button>
                     </form>            
                     <div id="warehouses-result" class="search-warehouses__result"></div> 
                     </div>

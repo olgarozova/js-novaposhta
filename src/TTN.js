@@ -7,7 +7,8 @@ class TTN {
     constructor(data){
         
         this.data = data;  
-        this.ElementStatus = document.createElement('p');         
+        this.ElementStatus = document.createElement('p'); 
+        this.dictionary = new Dictionary();         
     }
     viewStatusInfo(resultContainer){
         const {        
@@ -21,7 +22,7 @@ class TTN {
         resultContainer.innerHTML = "";
 
         this.ElementStatus.classList.add('ttn-status-result__status');       
-        this.ElementStatus.innerHTML = `${Dictionary.t("Status")}:  + ${Status}`;
+        this.ElementStatus.innerHTML = `${this.dictionary.t("Status")}:  ${Status}`;
         resultContainer.appendChild(this.ElementStatus);
         if(WarehouseRecipient){       
             const recipient = new Recipient({CityRecipient,WarehouseRecipient});        

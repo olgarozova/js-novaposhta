@@ -1,4 +1,5 @@
 import WarehouseSchedule from "./WarehouseSchedule";
+import Dictionary from "./Dictionary";
 
 class Warehouse{
 
@@ -7,7 +8,8 @@ class Warehouse{
         this.ElementWarehouse = document.createElement('div');
         this.ElementWarehouseNumber = document.createElement('div');
         this.ElementWarehouseAddress = document.createElement('div');
-        this.ElementWarehouseMaxWeight = document.createElement('div');  
+        this.ElementWarehouseMaxWeight = document.createElement('div');
+        this.dictionary = new Dictionary();  
         
     }
     render(){
@@ -20,7 +22,7 @@ class Warehouse{
             PlaceMaxWeightAllowed
         } = this.data;           
                 
-        const type = (CategoryOfWarehouse === "Postomat") ? "P-t" : "WH";        
+        const type = (CategoryOfWarehouse === "Postomat") ? this.dictionary.t("P-t") : this.dictionary.t("WH");        
         const maxWeight = TotalMaxWeightAllowed !== '0'  ? TotalMaxWeightAllowed : PlaceMaxWeightAllowed;
              
         this.ElementWarehouseNumber.innerHTML = `${type}: ${Number}`;
@@ -31,7 +33,7 @@ class Warehouse{
         this.ElementWarehouseAddress.classList.add('search-warehouses__item-address');
         this.ElementWarehouse.append(this.ElementWarehouseAddress);
 
-        this.ElementWarehouseMaxWeight.innerHTML = `${maxWeight} kg`;
+        this.ElementWarehouseMaxWeight.innerHTML = `${maxWeight} ${this.dictionary.t("kg")}`;
         this.ElementWarehouseMaxWeight.classList.add('search-warehouses__item-weight');
         this.ElementWarehouse.append(this.ElementWarehouseMaxWeight);
 
