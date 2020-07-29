@@ -1,81 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css" />
+    <script defer src="bundle.js"></script>
+    <script src="jquery-3.3.1.min.js"></script>
+    <title>JS homework with API novaposhta</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css">
-  <script defer src="bundle.js"></script>
-  <script src="jquery-3.3.1.min.js"></script>
-  <title>JS homework with API novaposhta</title>
-</head> 
-
-<body>
+  <body>
     <header>
-        <a href="/">
-            <img src="https://novaposhta.ua/runtime/cache/320x95/nova–poshta-15-long_320px.png" alt="">            
-        </a>
-    </header>    
-    <div class ="center">
-        <ul id="tabs" class ="center__tabs">
-            <li class = "center__tabs-item"><a id = "tab1-link-title" class = "center__tabs-item-link" href="#" title="tab1">Get novaposhta TTN status</a></li>
-            <li class = "center__tabs-item"><a id = "tab2-link-title" class = "center__tabs-item-link" href="#" title="tab2">Search warehouses</a></li>             
-          </ul>
-        <div id="content" class="center__container">
-            <div id="tab1" class = "center__container-tab">                        
-                <main class="container__main">     
-                    <div id = "tab1-container-title" class = "center__container-tab-title">Track your TTN</div>
-                    <div class = "center__container-tab-content ttn-status">
-                    <form id="ttn-status-form" action="/" method="GET" class="ttn-status-form">                
-                        <input placeholder="Enter TTN number" type="text" value="59000509805747" name="ttn_number" id="ttn_number" class="ttn-status__number form-text-element">                
-                        <button id = "ttn-status-submit" class="ttn-status__submit form-btn" type="submit">Get status TTN</button>                
-                        <div id="ttn_number__error" class="ttn-status-form__error">14 symbols only. First symbol should be 5,2 or 1. Only numbers</div>                
-                    </form>  
-                    <div id="ttn-status-result" class="ttn-status__result"></div>   
-                </div>                                  
-                </main>
-                <aside class="container__sidebar"> 
-                    <div class="ttns-history"> 
-                        <h2 id = "ttns-history-title" class="ttns-history__title">History</h2>
-                        <div class="ttns-history__result">The history is empty</div>            
-                    </div>          
-                </aside> 
-             </div>
-             <div id="tab2" class = "center__container-tab">
-                <div id = "tab2-container-title" class = "center__container-tab-title">Search by number or location</div>
-                <div class = "center__container-tab-content search-warehouses">
-                    <form id="search-warehouses-form" action="/" method="GET" class = "search-warehouses-form">
-                        <input placeholder="Enter city" type="text" autocomplete="off" value="" name="city" id="cityName" class="search-warehouses__city form-text-element">
-                        <ul id="cities-drop-down-ul" class="search-warehouses__list search-warehouses__list-hide"></ul>
-                        <button id = "search-warehouses-submit" class="search-warehouses__submit form-btn" type="submit">Search warehouses</button>
-                    </form>            
-                    <div id="warehouses-result" class="search-warehouses__result"></div> 
-                    </div>
-             </div>           
+      <a href="/">
+        <img
+          src="https://novaposhta.ua/runtime/cache/320x95/nova–poshta-15-long_320px.png"
+          alt=""
+        />
+      </a>
+    </header>
+    <div class="center">
+      <ul id="tabs" class="center__tabs">
+        <li class="center__tabs-item">
+          <a
+            id="tab1-link-title"
+            class="center__tabs-item-link"
+            href="#"
+            title="tab1"
+            >Get novaposhta TTN status</a
+          >
+        </li>
+        <li class="center__tabs-item">
+          <a
+            id="tab2-link-title"
+            class="center__tabs-item-link"
+            href="#"
+            title="tab2"
+            >Search warehouses</a
+          >
+        </li>
+      </ul>
+      <div id="content" class="center__container">
+        <div id="tab1" class="center__container-tab">
+          <main class="container__main">
+            <div id="tab1-container-title" class="center__container-tab-title">
+              Track your TTN
+            </div>
+            <div class="center__container-tab-content ttn-status">
+              <form
+                id="ttn-status-form"
+                action="/"
+                method="GET"
+                class="ttn-status-form"
+              >
+                <input
+                  placeholder="Enter TTN number"
+                  type="text"
+                  value="59000509805747"
+                  name="ttn_number"
+                  id="ttn_number"
+                  class="ttn-status__number form-text-element"
+                />
+                <button
+                  id="ttn-status-submit"
+                  class="ttn-status__submit form-btn"
+                  type="submit"
+                >
+                  Get status TTN
+                </button>
+                <div id="ttn_number__error" class="ttn-status-form__error">
+                  14 symbols only. First symbol should be 5,2 or 1. Only numbers
+                </div>
+              </form>
+              <div id="ttn-status-result" class="ttn-status__result"></div>
+            </div>
+          </main>
+          <aside class="container__sidebar">
+            <div class="ttns-history">
+              <h2 id="ttns-history-title" class="ttns-history__title">
+                History
+              </h2>
+              <div class="ttns-history__result">The history is empty</div>
+            </div>
+          </aside>
         </div>
-    </div>    
+        <div id="tab2" class="center__container-tab">
+          <div id="tab2-container-title" class="center__container-tab-title">
+            Search by number or location
+          </div>
+          <div class="center__container-tab-content search-warehouses">
+            <form
+              id="search-warehouses-form"
+              action="/"
+              method="GET"
+              class="search-warehouses-form"
+            >
+              <input
+                placeholder="Enter city"
+                type="text"
+                autocomplete="off"
+                value=""
+                name="city"
+                id="cityName"
+                class="search-warehouses__city form-text-element"
+              />
+              <ul
+                id="cities-drop-down-ul"
+                class="search-warehouses__list search-warehouses__list-hide"
+              ></ul>
+              <button
+                id="search-warehouses-submit"
+                class="search-warehouses__submit form-btn"
+                type="submit"
+              >
+                Search warehouses
+              </button>
+            </form>
+            <div id="warehouses-result" class="search-warehouses__result"></div>
+          </div>
+        </div>
+      </div>
+    </div>
     <footer>@ 2020</footer>
 
-<script type="text/javascript">
-
-
-    $(document).ready(function() {
-    $("#content div.center__container-tab").hide();
-    $("#tabs li:first").addClass("center__tabs-item-current");
-    $("#content div:first").fadeIn();
-    
-    $('#tabs a').click(function(e) {
-        e.preventDefault();        
+    <script type="text/javascript">
+      $(document).ready(function () {
         $("#content div.center__container-tab").hide();
-        $("#tabs li").removeClass("center__tabs-item-current");
-        $(this).parent().addClass("center__tabs-item-current");
-        $('#' + $(this).attr('title')).fadeIn();
-    });
-});
+        $("#tabs li:first").addClass("center__tabs-item-current");
+        $("#content div:first").fadeIn();
 
-
-</script>  
-</body>
-
+        $("#tabs a").click(function (e) {
+          e.preventDefault();
+          $("#content div.center__container-tab").hide();
+          $("#tabs li").removeClass("center__tabs-item-current");
+          $(this).parent().addClass("center__tabs-item-current");
+          $("#" + $(this).attr("title")).fadeIn();
+        });
+      });
+    </script>
+  </body>
 </html>

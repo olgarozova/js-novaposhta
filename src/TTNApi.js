@@ -1,43 +1,44 @@
 import BodyCreator from "./BodyCreator";
 
 /*
-* TTN API class
-*/
+ * TTN API class
+ */
 
 class TTNApi {
-    constructor(settings){
-        const {apiKey,baseUrl} = settings;
+  constructor(settings) {
+    const { apiKey, baseUrl } = settings;
 
-        this.apiKey = apiKey;
-        this.baseUrl = baseUrl;
-    }
+    this.apiKey = apiKey;
+    this.baseUrl = baseUrl;
+  }
 
-    sendRequest(baseUrl,method,body){
-        const response = fetch(baseUrl ,{
-            method: method,
-            body: JSON.stringify(body)
-        })
-        .then(response => response.json())           
-        .catch(error => alert('HTTP request error.  ' + error)); 
+  sendRequest(baseUrl, method, body) {
+    const response = fetch(baseUrl, {
+      method: method,
+      body: JSON.stringify(body),
+    })
+      .then((response) => response.json())
+      .catch((error) => alert("HTTP request error.  " + error));
 
-        return response; 
-    }
+    return response;
+  }
 
-    getTTN(ttnId){                      
-        const body = new BodyCreator(this.apiKey).create('BodyTreking',{ttnId});
-        return this.sendRequest(this.baseUrl,"POST",body);                
-    }   
+  getTTN(ttnId) {
+    const body = new BodyCreator(this.apiKey).create("BodyTreking", { ttnId });
+    return this.sendRequest(this.baseUrl, "POST", body);
+  }
 
-    searchSettlements(city) {
-        const body = new BodyCreator(this.apiKey).create('BodySettlements',{city});
-        return this.sendRequest(this.baseUrl,"POST",body);   
-    }
+  searchSettlements(city) {
+    const body = new BodyCreator(this.apiKey).create("BodySettlements", {
+      city,
+    });
+    return this.sendRequest(this.baseUrl, "POST", body);
+  }
 
-    getWarehouses() {
-        const body = new BodyCreator(this.apiKey).create('BodyWarehouses');
-        return this.sendRequest(this.baseUrl,"POST",body);  
-    }        
-        
+  getWarehouses() {
+    const body = new BodyCreator(this.apiKey).create("BodyWarehouses");
+    return this.sendRequest(this.baseUrl, "POST", body);
+  }
 }
 
 export default TTNApi;
