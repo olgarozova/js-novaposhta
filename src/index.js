@@ -9,6 +9,5 @@ getTTnStatusForm.init();
 const searchWarehouseForm = new SearchWarehouseForm(settings);
 searchWarehouseForm.init();
 
-Dictionary.translateHTMLText('tab1-link-title');
-Dictionary.translateHTMLText('tab2-link-title');
-Dictionary.translateHTMLText('ttns-history-title');
+const dictionary = new Dictionary();
+dictionary.translateHTMLText();

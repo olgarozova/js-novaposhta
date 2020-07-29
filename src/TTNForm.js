@@ -28,12 +28,16 @@ class TTNForm {
         }        
         return true;
     }
+    clearError(){
+        this.ttnNumberElem.classList.remove('invalid');
+        this.message.classList.remove('ttn-status-form__error-show');
+    }
     getInfo(event){ 
         event.preventDefault();              
 
         if(this.isValidNumber()){
-            this.ttnNumberElem.classList.remove('invalid');
-            this.message.classList.remove('ttn-status-form__error-show');            
+                       
+           this.clearError();       
 
             const response = this.TTNApi.getTTN(this.ttnNumberElem.value);                           
 

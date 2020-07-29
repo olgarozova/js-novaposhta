@@ -25,7 +25,7 @@ class IndexDB{
            const cursorIndex = index.openCursor(singleKeyRange);
 
            cursorIndex.onerror = function(event) {
-                    
+                alert("Database error: " + event.target.error);  
            };
             cursorIndex.onsuccess = function(event) {
                 const res = event.target.result;

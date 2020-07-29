@@ -4,7 +4,8 @@ class Sender{
 
     constructor(data){
         this.data = data;  
-        this.ElementSender = document.createElement('p');        
+        this.ElementSender = document.createElement('p');   
+        this.dictionary = new Dictionary();     
     }
     render(){
         const {                    
@@ -12,7 +13,7 @@ class Sender{
             WarehouseSender
         } = this.data;
         
-        this.ElementSender.innerHTML = `${Dictionary.t("Sender")}: ${CitySender}. ${WarehouseSender}`;        
+        this.ElementSender.innerHTML = `${this.dictionary.t("Sender")}: ${CitySender}. ${WarehouseSender}`;        
         return this.ElementSender;
     }
 }

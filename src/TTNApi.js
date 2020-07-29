@@ -28,12 +28,12 @@ class TTNApi {
         return this.sendRequest(this.baseUrl,"POST",body);                
     }   
 
-    searchSettlements(city) { // населенные пункты по названию из инпута       
+    searchSettlements(city) {
         const body = new BodyCreator(this.apiKey).create('BodySettlements',{city});
         return this.sendRequest(this.baseUrl,"POST",body);   
     }
 
-    getWarehouses() {//  отделения по коду города //getWarehouses         
+    getWarehouses() {
         const body = new BodyCreator(this.apiKey).create('BodyWarehouses');
         return this.sendRequest(this.baseUrl,"POST",body);  
     }        
